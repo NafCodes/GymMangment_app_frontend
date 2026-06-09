@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 const CARDS = [
   {
@@ -60,10 +61,27 @@ const CARDS = [
 export default function Home() {
   const navigate = useNavigate();
 
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    navigate('/login');
+  }
+
   return (
     <div style={{ background: '#0A0A0A', minHeight: '100dvh', display: 'flex', flexDirection: 'column', padding: '0 16px 24px' }}>
       {/* Header */}
-      <div style={{ paddingTop: 56, textAlign: 'center', marginBottom: 8 }}>
+      <div style={{ paddingTop: 56, textAlign: 'center', marginBottom: 8, position: 'relative' }}>
+        <button
+          onClick={handleLogout}
+          style={{
+            position: 'absolute', top: 56, right: 0,
+            background: 'transparent', border: '1px solid #333',
+            borderRadius: 8, padding: '6px 12px',
+            color: '#666', fontSize: 11, fontWeight: 600,
+            cursor: 'pointer',
+          }}
+        >
+          Log Out
+        </button>
         <h1 className="heading" style={{ fontSize: 64, margin: 0, color: '#FFFFFF', letterSpacing: 6, lineHeight: 1 }}>
           DNA
         </h1>

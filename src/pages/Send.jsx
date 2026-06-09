@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { QRCodeSVG } from 'qrcode.react';
+import WaiverQR from '../components/WaiverQR';
+import { getWaiverUrl } from '../lib/waiverUrl';
 
 export default function Send() {
   const navigate = useNavigate();
-  const url = `${window.location.origin}/sign-waiver`;
+  const url = getWaiverUrl();
   const [copied, setCopied] = useState(false);
 
   async function handleCopy() {
@@ -42,10 +43,7 @@ export default function Send() {
           Students scan this QR code to sign the waiver on their phone
         </p>
 
-        {/* QR code */}
-        <div style={{ background: '#fff', padding: 20, borderRadius: 20 }}>
-          <QRCodeSVG value={url} size={220} />
-        </div>
+        <WaiverQR size={220} />
 
         <p style={{ fontSize: 11, color: '#444', textAlign: 'center', wordBreak: 'break-all', padding: '0 8px' }}>{url}</p>
 

@@ -1,4 +1,4 @@
-import { getWaiverStatus } from '../data/seedData';
+import { getWaiverStatusFromAPI as getWaiverStatus } from '../lib/adapters';
 
 const STATUS_CONFIG = {
   valid:    { label: 'Signed',   bg: '#14532d', color: '#4ade80', border: '#166534' },

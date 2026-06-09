@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import WaiverBadge from './WaiverBadge';
 import BeltStripeBar from './BeltStripeBar';
-import { getBeltColor } from '../data/seedData';
+import { getBeltColor } from '../lib/adapters';
 
 export default function StudentCard({ student }) {
   const navigate = useNavigate();
