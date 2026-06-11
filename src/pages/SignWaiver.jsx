@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { getStudents, saveStudents, getWaivers, saveWaivers } from '../data/seedData';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const WAIVER_TEXT = `DNA BJJ CLUB
 LIABILITY WAIVER & MEMBERSHIP AGREEMENT
@@ -85,32 +86,48 @@ function computeExpiry(now) {
 export default function SignWaiver() {
   const [form, setForm]           = useState({ name: '', email: '', signature: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading]     = useState(false);
+  const [apiError, setApiError]   = useState(null);
   const [signerName, setSignerName] = useState('');
   const [expiryYear, setExpiryYear] = useState(null);
 
   const today     = new Date();
   const dateLabel = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    setApiError(null);
+    setLoading(true);
+
     const { expires, year } = computeExpiry(today);
     const dateSigned = today.toISOString().split('T')[0];
 
-    // Attach to student if email matches
-    const students = getStudents();
-    const match    = students.find(s => s.email.toLowerCase() === form.email.toLowerCase());
-    if (match) {
-      saveStudents(students.map(s =>
-        s.id === match.id ? { ...s, waiver: { signed: true, dateSigned, expires } } : s
-      ));
+    try {
+      const res = await fetch(`${API_URL}/waivers`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          signature: form.signature,
+          date_signed: dateSigned,
+          expires,
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Server error (${res.status})`);
+      }
+
+      setSignerName(form.name);
+      setExpiryYear(year);
+      setSubmitted(true);
+    } catch (err) {
+      setApiError(err.message || 'Failed to submit waiver. Please try again.');
+    } finally {
+      setLoading(false);
     }
-
-    // Always save standalone record
-    saveWaivers([...getWaivers(), { name: form.name, email: form.email, dateSigned, expires, signature: form.signature }]);
-
-    setSignerName(form.name);
-    setExpiryYear(year);
-    setSubmitted(true);
   }
 
   // ── Success screen ──────────────────────────────────────────────
@@ -223,11 +240,18 @@ export default function SignWaiver() {
               <div style={{ ...lightInputStyle, color: '#888', cursor: 'default' }}>{dateLabel}</div>
             </div>
 
+            {apiError && (
+              <p style={{ fontSize: 13, color: '#DC2626', textAlign: 'center', margin: 0 }}>
+                {apiError}
+              </p>
+            )}
+
             <button
               type="submit"
-              style={{ background: '#DC2626', border: 'none', borderRadius: 14, padding: '15px 0', color: '#fff', fontWeight: 700, fontSize: 15, cursor: 'pointer', marginTop: 4 }}
+              disabled={loading}
+              style={{ background: loading ? '#f87171' : '#DC2626', border: 'none', borderRadius: 14, padding: '15px 0', color: '#fff', fontWeight: 700, fontSize: 15, cursor: loading ? 'default' : 'pointer', marginTop: 4 }}
             >
-              I Agree &amp; Sign
+              {loading ? 'Submitting…' : 'I Agree & Sign'}
             </button>
 
             <p style={{ fontSize: 10, color: '#bbb', textAlign: 'center', margin: 0 }}>
