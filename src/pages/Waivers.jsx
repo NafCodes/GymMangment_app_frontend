@@ -67,7 +67,7 @@ export default function Waivers() {
   return (
     <div className="flex flex-col flex-1" style={{ paddingBottom: 96 }}>
       <div style={{ background: '#111', borderBottom: '1px solid #2a2a2a', padding: '16px 20px' }} className="flex items-center gap-3">
-        <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+        <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 11, minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F0F0F0" strokeWidth="2.5" strokeLinecap="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
@@ -109,15 +109,15 @@ export default function Waivers() {
                       {status === 'missing' && (
                         confirmId === student.id ? (
                           <div className="flex gap-2 shrink-0">
-                            <button onClick={() => setConfirmId(null)} style={{ background: '#222', border: '1px solid #333', borderRadius: 8, padding: '5px 10px', color: '#888', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>
+                            <button onClick={() => setConfirmId(null)} style={{ background: '#222', border: '1px solid #333', borderRadius: 8, padding: '10px 12px', color: '#888', fontSize: 12, fontWeight: 600, cursor: 'pointer', minHeight: 44 }}>
                               Cancel
                             </button>
-                            <button onClick={() => doMarkSigned(student.id)} style={{ background: '#DC2626', border: 'none', borderRadius: 8, padding: '5px 10px', color: '#fff', fontSize: 11, fontWeight: 700, cursor: 'pointer' }}>
+                            <button onClick={() => doMarkSigned(student.id)} style={{ background: '#DC2626', border: 'none', borderRadius: 8, padding: '10px 12px', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', minHeight: 44 }}>
                               Confirm
                             </button>
                           </div>
                         ) : (
-                          <button onClick={() => setConfirmId(student.id)} style={{ background: 'transparent', border: '1px solid #333', borderRadius: 8, padding: '5px 12px', color: '#888', fontSize: 11, fontWeight: 600, cursor: 'pointer', flexShrink: 0 }}>
+                          <button onClick={() => setConfirmId(student.id)} style={{ background: 'transparent', border: '1px solid #333', borderRadius: 8, padding: '10px 14px', color: '#888', fontSize: 12, fontWeight: 600, cursor: 'pointer', flexShrink: 0, minHeight: 44 }}>
                             Mark Signed
                           </button>
                         )
@@ -133,7 +133,7 @@ export default function Waivers() {
 
       <div style={{
         position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)',
-        width: '100%', maxWidth: 390,
+        width: '100%', maxWidth: 768,
         background: 'linear-gradient(to top, #0A0A0A 75%, transparent)',
         padding: '12px 16px 28px',
       }}>
@@ -147,7 +147,7 @@ export default function Waivers() {
 
       {qrOpen && (
         <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ background: 'rgba(0,0,0,0.78)' }} onClick={() => setQrOpen(false)}>
-          <div onClick={e => e.stopPropagation()} style={{ background: '#1A1A1A', border: '1px solid #2a2a2a', borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 390 }} className="p-6 pb-10 flex flex-col items-center gap-5">
+          <div onClick={e => e.stopPropagation()} style={{ background: '#1A1A1A', border: '1px solid #2a2a2a', borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 768 }} className="p-6 pb-10 flex flex-col items-center gap-5">
             <div style={{ width: 40, height: 4, background: '#333', borderRadius: 99 }} />
             <h2 className="heading" style={{ fontSize: 22, color: '#F0F0F0', margin: 0 }}>WAIVER QR CODE</h2>
             <p style={{ fontSize: 13, color: '#888', textAlign: 'center', margin: 0 }}>

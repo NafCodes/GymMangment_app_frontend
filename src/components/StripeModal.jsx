@@ -62,7 +62,7 @@ function btnStyle(bg, color, border) {
 function Backdrop({ children, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center" style={{ background: 'rgba(0,0,0,0.75)' }} onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} style={{ background: '#161616', border: '1px solid #2a2a2a', borderRadius: '20px 20px 0 0', width: '100%', maxWidth: 390 }} className="p-6 pb-10 flex flex-col items-center gap-4">
+      <div onClick={e => e.stopPropagation()} style={{ background: '#161616', border: '1px solid #2a2a2a', borderRadius: '20px 20px 0 0', width: '100%', maxWidth: 768 }} className="p-6 pb-10 flex flex-col items-center gap-4">
         {children}
       </div>
     </div>

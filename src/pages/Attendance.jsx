@@ -197,7 +197,7 @@ export default function Attendance() {
 
       <div style={{
         position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)',
-        width: '100%', maxWidth: 390,
+        width: '100%', maxWidth: 768,
         background: 'linear-gradient(to top, #0A0A0A 80%, transparent)',
         padding: '12px 16px 28px',
       }}>
@@ -212,7 +212,7 @@ export default function Attendance() {
 function Header({ navigate }) {
   return (
     <div style={{ background: '#111', borderBottom: '1px solid #2a2a2a', padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 12 }}>
-      <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+      <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 11, minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F0F0F0" strokeWidth="2.5" strokeLinecap="round">
           <polyline points="15 18 9 12 15 6"/>
         </svg>

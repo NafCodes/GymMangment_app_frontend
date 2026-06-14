@@ -58,9 +58,11 @@ export default function Students() {
     e.preventDefault();
     setSaving(true);
     try {
+      const payload = uiStudentToApi(form);
+      if (!form.email.trim()) delete payload.email;
       const created = await apiFetch('/students', {
         method: 'POST',
-        body: JSON.stringify(uiStudentToApi(form)),
+        body: JSON.stringify(payload),
       });
       setStudents(prev => [apiStudentToUI(created), ...prev]);
       closeModal();
@@ -79,7 +81,7 @@ export default function Students() {
   return (
     <div className="flex flex-col flex-1" style={{ paddingBottom: 100 }}>
       <div style={{ background: '#111', borderBottom: '1px solid #2a2a2a', padding: '16px 20px' }} className="flex items-center gap-3">
-        <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+        <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 11, minWidth: 44, minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F0F0F0" strokeWidth="2.5" strokeLinecap="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
@@ -138,7 +140,7 @@ export default function Students() {
             onClick={e => e.stopPropagation()}
             style={{
               background: '#1A1A1A', border: '1px solid #2a2a2a',
-              borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 390,
+              borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 768,
               transform: animateIn ? 'translateY(0)' : 'translateY(100%)',
               transition: 'transform 0.28s cubic-bezier(0.32,0.72,0,1)',
             }}
@@ -154,8 +156,10 @@ export default function Students() {
               </div>
 
               <div className="flex flex-col gap-1">
-                <label style={{ fontSize: 12, color: '#888', fontWeight: 600 }}>Email</label>
-                <input type="email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} style={inputStyle} />
+                <label style={{ fontSize: 12, color: '#888', fontWeight: 600 }}>
+                  Email <span style={{ fontWeight: 400, color: '#555' }}>(optional)</span>
+                </label>
+                <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} style={inputStyle} />
               </div>
 
               <div className="flex flex-col gap-1">
